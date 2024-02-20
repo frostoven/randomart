@@ -1,7 +1,7 @@
-var _ = require('lodash')
-var crypto = require('crypto')
+const _ = require('lodash')
+const crypto = require('crypto')
 
-var defaultSymbols = {
+const defaultSymbols = {
   '-2': 'E', // end
   '-1': 'S', // start
   '0': ' ',
@@ -18,26 +18,26 @@ var defaultSymbols = {
   '11': '&',
   '12': '#',
   '13': '/',
-  '14': '^'
+  '14': '^',
 }
 
-var special = {
+const special = {
   end: -2,
   start: -1,
-  empty: 0
+  empty: 0,
 }
 
-var defaultBounds = {
+const defaultBounds = {
   width: 17,
-  height: 9
+  height: 9,
 }
 
 function createBoard (bounds, value) {
-  var result = []
+  const result = []
 
-  for (var i = 0; i < bounds.width; i++) {
+  for (let i = 0; i < bounds.width; i++) {
     result[i] = []
-    for (var j = 0; j < bounds.height; j++) {
+    for (let j = 0; j < bounds.height; j++) {
       result[i][j] = value
     }
   }
@@ -46,19 +46,19 @@ function createBoard (bounds, value) {
 }
 
 function generateBoard (data, options) {
-  var options = options || {}
-  var bounds = options.bounds || defaultBounds
+  options = options || {}
+  const bounds = options.bounds || defaultBounds
 
-  var board = createBoard(bounds, special.empty)
+  const board = createBoard(bounds, special.empty)
 
-  var x = Math.floor(bounds.width / 2)
-  var y = Math.floor(bounds.height / 2)
+  let x = Math.floor(bounds.width / 2)
+  let y = Math.floor(bounds.height / 2)
 
   board[x][y] = special.start
 
   _.each(data, function (b) {
-    for (var s = 0; s < 8; s += 2) {
-      var d = (b >> s) & 3
+    for (let s = 0; s < 8; s += 2) {
+      let d = (b >> s) & 3
 
       switch (d) {
         case 0: // up
@@ -89,22 +89,22 @@ function generateBoard (data, options) {
 
   return {
     board: board,
-    bounds: bounds
+    bounds: bounds,
   }
 }
 
 function boardToString (board, options) {
-  var options = options || {}
-  var symbols = options.symbols || defaultSymbols
+  options = options || {}
+  const symbols = options.symbols || defaultSymbols
 
-  var width = board.bounds.width
-  var height = board.bounds.height
+  let width = board.bounds.width
+  let height = board.bounds.height
 
-  result = []
+  const result = []
 
-  for (var i = 0; i < height; i++) {
+  for (let i = 0; i < height; i++) {
     result[i] = []
-    for (var j = 0; j < width; j++) {
+    for (let j = 0; j < width; j++) {
       result[i][j] = symbols[board.board[j][i]] || symbols[special.empty]
     }
     result[i] = result[i].join('')
@@ -113,11 +113,16 @@ function boardToString (board, options) {
   return result.join('\n')
 }
 
-function randomart (data, options) {
-  var data = data || crypto.pseudoRandomBytes(16)
-  var options = options || {}
+function randomart (data, options, asArray = false) {
+  data = data || crypto.pseudoRandomBytes(16)
+  options = options || {}
 
-  return boardToString(generateBoard(data, options), options)
+  if (asArray) {
+    return generateBoard(data, options)
+  }
+  else {
+    return boardToString(generateBoard(data, options), options)
+  }
 }
 
 module.exports = randomart
