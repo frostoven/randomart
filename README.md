@@ -5,6 +5,15 @@ Generate OpenSSH style "randomart" images based on any data.
 
 This is a shameless, cli port of [slapresta/randomart](https://github.com/slapresta/randomart), which is itself a shameless, slightly modified port of [calmh/randomart](https://github.com/calmh/randomart) to JS.
 
+About this fork
+===
+
+Adds the option to return the board state as an array instead of a string.
+Great for situations where raw values are useful (such as when generating
+images). Just add `true` as the third argument to the `randomart()` function.
+
+This fork also removes some dependencies and updates others.
+
 Example
 ====
 
