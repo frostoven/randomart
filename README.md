@@ -3,7 +3,13 @@ randomart-generator
 
 Generate OpenSSH style "randomart" images based on any data.
 
-This is a shameless, cli port of [slapresta/randomart](https://github.com/slapresta/randomart), which is itself a shameless, slightly modified port of [calmh/randomart](https://github.com/calmh/randomart) to JS.
+This is a shameless, cli port of
+[slapresta/randomart](https://github.com/slapresta/randomart),
+which is itself a shameless, slightly modified port of
+[calmh/randomart](https://github.com/calmh/randomart) to JS,
+which is a shameless, modified version of
+[therebelrobot](https://github.com/therebelrobot/randomart) that adds new
+features. <!-- This chain is getting ridiculous XD -->
 
 About this fork
 ===
@@ -42,27 +48,39 @@ console.log(randomart([
 Documentation
 ====
 
-The function returned by `require('randomart')` optionally accepts two arguments: the first one, `data`, is expected to be an array of integers between 0 and 255, while the second one, `options`, has the following structure, in which all parent elements are optional:
+The function returned by `require('randomart')` optionally accepts two
+arguments: the first one, `data`, is expected to be an array of integers
+between 0 and 255, while the second one, `options`, has the following
+structure, in which all parent elements are optional:
 
-```json
-{
-  "bounds": {
-    "width": 17,
-    "height": 9,
+```javascript
+randomart = require('randomart')
+
+const options = {
+  bounds: {
+    width: 17,
+    height: 9,
   },
-  "symbols": {
-    "-2": "E",
-    "-1": "S",
-     "0": " ",
-     "1": ".",
-    [...]
-    "13": "/",
-    "14": "^"
-  }
+  symbols: {
+    '-2': 'E',
+    '-1': 'S',
+    '0': ' ',
+    '1': '.',
+    // [...]
+    '13': '/',
+    '14': '^',
+  },
+  getRawData: false,
 }
+
+const randomartString = randomart(
+  [/* your byte array */],
+  options,
+)
 ```
 
 Credits
 ====
 
-Thanks to [@calmh](https://github.com/calmh) for their hard work! May the opensource gods reward them with seventy-two non-terrible window managers.
+Thanks to [@calmh](https://github.com/calmh/randomart) for their hard work! May
+the opensource gods reward them with seventy-two non-terrible window managers.
