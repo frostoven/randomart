@@ -74,7 +74,7 @@ const randomartString = randomart(
 )
 ```
 
-### Generating an bitmap instead of text
+### Generating a bitmap instead of text
 
 Example:
 ```javascript
