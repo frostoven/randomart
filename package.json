@@ -1,6 +1,6 @@
 {
-  "name": "randomart",
-  "version": "0.1.0",
+  "name": "@frostoven/randomart",
+  "version": "1.1.1",
   "description": "OpenSSH randomart images library in JS, now with CLI!",
   "main": "randomart.js",
   "scripts": {
