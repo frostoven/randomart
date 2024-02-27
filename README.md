@@ -1,21 +1,29 @@
-randomart-generator
-====
+# randomart-generator
 
 Generate OpenSSH style "randomart" images based on any data.
 
-This is a shameless, cli port of
-[slapresta/randomart](https://github.com/slapresta/randomart),
-which is itself a shameless, slightly modified port of
-[calmh/randomart](https://github.com/calmh/randomart) to JS,
-which is a shameless, modified version of
-[therebelrobot](https://github.com/therebelrobot/randomart) that adds new
-features. <!-- This chain is getting ridiculous XD -->
+This project was originally based on a cli port of
+[slapresta](https://github.com/slapresta/randomart)'s work
+by [therebelrobot](https://github.com/therebelrobot/randomart).
+The original code was based on
+[calmh/randomart](https://github.com/calmh/randomart),
+a randomart library written in Go.
 
-Example
-====
+This project adds some features:
+* Option to generate bitmaps instead of ASCII art
+* Option to get raw buffers
 
+## Documentation
+
+The function returned by `require('randomart')` optionally accepts two
+arguments: the first one, `data`, is expected to be an array of integers
+between 0 and 255, while the second one, `options`, has the following
+structure, in which all parent elements are optional.
+
+### Basic usage
+
+Example:
 ```javascript
-
 randomart = require('randomart');
 
 console.log(randomart([
@@ -24,6 +32,7 @@ console.log(randomart([
 ]));
 ```
 
+Result:
 ```
     .+.
       o.
@@ -36,13 +45,7 @@ console.log(randomart([
         .o+...
 ```
 
-Documentation
-====
-
-The function returned by `require('randomart')` optionally accepts two
-arguments: the first one, `data`, is expected to be an array of integers
-between 0 and 255, while the second one, `options`, has the following
-structure, in which all parent elements are optional:
+### Overriding ASCII symbols
 
 ```javascript
 randomart = require('randomart')
@@ -53,14 +56,15 @@ const options = {
     height: 9,
   },
   symbols: {
-    '-2': 'E',
-    '-1': 'S',
+    '-2': 'E', // End
+    '-1': 'S', // Start
     '0': ' ',
     '1': '.',
     // [...]
     '13': '/',
     '14': '^',
   },
+  // This is false by default, set to true to get raw data instead of text.
   getRawData: false,
 }
 
@@ -70,8 +74,63 @@ const randomartString = randomart(
 )
 ```
 
-Credits
-====
+### Generating an bitmap instead of text
+
+Example:
+```javascript
+randomart = require('randomart')
+
+const options = {
+  bounds: {
+    width: 48,
+    height: 48,
+  },
+  asBitmap: true,
+  darkMode: false,
+}
+
+const buffer = randomart(
+  [/* 4096-bit RSA key */],
+  options,
+)
+```
+
+```javascript
+// If saving the image from Node.js
+// ================================
+
+const fs = require('fs')
+
+fs.writeFile('/tmp/your_image.bmp', buffer, console.log)
+```
+
+```javascript
+// If using this library from a browser
+// ====================================
+
+function arrayBufferToString(ab) {
+  // https://stackoverflow.com/questions/39725716/how-to-convert-javascript-array-to-binary-data-and-back-for-websocket
+  return new Uint8Array(ab).reduce((p, c) => p + String.fromCharCode(c), '')
+}
+
+const data = `data:image/bmp;base64,${window.btoa(arrayBufferToString(buffer))}`
+
+const img = document.getElementById('your-image')
+img.src = data
+
+```
+
+Light mode example results:
+
+<img alt="example" height="48" src="example1a.bmp" width="48"/>
+<img alt="example" height="48" src="example2a.bmp" width="48"/>
+
+Dark mode example results:
+
+<img alt="example" height="48" src="example1b.bmp" width="48"/>
+<img alt="example" height="48" src="example2b.bmp" width="48"/>
+
+## Credits
 
 Thanks to [@calmh](https://github.com/calmh/randomart) for their hard work! May
 the opensource gods reward them with seventy-two non-terrible window managers.
