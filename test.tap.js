@@ -1,6 +1,7 @@
 const assert = require('assert')
 const { describe, it } = require('node:test')
 const randomart = require('./randomart.js')
+const { generateBitmap } = require('./bitmap')
 
 describe('randomart', function () {
   describe('should generate the right randomart', function () {
@@ -30,6 +31,7 @@ describe('randomart', function () {
 
       test(input, output)
     })
+
     it('second test case', function () {
       const input = [
         0x30, 0xaa, 0x88, 0x72,
@@ -51,6 +53,35 @@ describe('randomart', function () {
       ].join('\n')
 
       test(input, output)
+    })
+
+    it('bitmap functions complete', function () {
+      const input = [
+        0xaa, 0x88, 0x72,
+        0xc8, 0x30, 0xd0,
+        0x99, 0xc7, 0x8f
+      ]
+
+      const expectedOutput = JSON.stringify([
+        66, 77, 66, 0, 0, 0, 0, 0, 0, 0, 54, 0,
+        0, 0, 40, 0, 0, 0, 2, 0, 0, 0, 254, 255,
+        255, 255, 1, 0, 24, 0, 0, 0, 0, 0, 12, 0,
+        0, 0, 19, 11, 0, 0, 19, 11, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 132, 132, 132, 127, 127, 127,
+        177, 177, 177, 128, 128, 128
+      ])
+
+      const board = randomart(input, {
+        bounds: {
+          width: 2,
+          height: 2
+        },
+        symbols: null,
+        getRawData: true
+      })
+
+      const data = generateBitmap(board, false)
+      assert.equal(JSON.stringify([...data]), expectedOutput)
     })
   })
 })
