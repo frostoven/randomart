@@ -113,11 +113,11 @@ function boardToString (board, options) {
   return result.join('\n')
 }
 
-function randomart (data, options, asArray = false) {
+function randomart (data, options, returnRawData = false) {
   data = data || crypto.pseudoRandomBytes(16)
   options = options || {}
 
-  if (asArray) {
+  if (returnRawData) {
     return generateBoard(data, options)
   }
   else {
