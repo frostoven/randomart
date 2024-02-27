@@ -11,15 +11,6 @@ which is a shameless, modified version of
 [therebelrobot](https://github.com/therebelrobot/randomart) that adds new
 features. <!-- This chain is getting ridiculous XD -->
 
-About this fork
-===
-
-Adds the option to return the board state as an array instead of a string.
-Great for situations where raw values are useful (such as when generating
-images). Just add `true` as the third argument to the `randomart()` function.
-
-This fork also removes some dependencies and updates others.
-
 Example
 ====
 
