@@ -1,7 +1,5 @@
-(function() {
+(function () {
+  const randomart = require('./randomart.js')
 
-randomart = require('./randomart.js');
-
-console.log(randomart());
-
-})();
+  console.log(randomart())
+})()
