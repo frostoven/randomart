@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/therebelrobot/randomart.git"
+    "url": "git+https://github.com/frostoven/randomart.git"
   },
   "keywords": [
     "randomart",
@@ -25,12 +25,11 @@
     "art",
     "random"
   ],
-  "author": "Trent Oswald <trentoswald@therebelrobot.com> (@therebelrobot)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/therebelrobot/randomart/issues"
+    "url": "https://github.com/frostoven/randomart/issues"
   },
-  "homepage": "https://github.com/therebelrobot/randomart#readme",
+  "homepage": "https://github.com/frostoven/randomart#readme",
   "dependencies": {
     "lodash": "4.17.21"
   },
