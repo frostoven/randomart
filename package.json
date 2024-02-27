@@ -25,7 +25,7 @@
     "art",
     "random"
   ],
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/frostoven/randomart/issues"
   },
