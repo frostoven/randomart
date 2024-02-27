@@ -1,5 +1,6 @@
 const _ = require('lodash')
 const crypto = require('crypto')
+const { generateBitmap } = require('./bitmap')
 
 const defaultSymbols = {
   '-2': 'E', // end
@@ -45,6 +46,11 @@ function createBoard (bounds, value) {
   return result
 }
 
+/**
+ * @param {Array|Buffer} data
+ * @param options
+ * @return {{bounds: {width: number, height: number}, board: *[]}}
+ */
 function generateBoard (data, options) {
   options = options || {}
   const bounds = options.bounds || defaultBounds
@@ -113,14 +119,30 @@ function boardToString (board, options) {
   return result.join('\n')
 }
 
+/**
+ *
+ * @param {Array|Buffer} data
+ * @param {Object}  [options]
+ */
 function randomart (data, options) {
   data = data || crypto.randomBytes(16)
-  options = options || { getRawData: false }
+  options = options || {
+    getRawData: false,
+    asBitmap: false,
+    darkMode: false
+  }
+
+  const board = generateBoard(data, options)
 
   if (options.getRawData) {
-    return generateBoard(data, options)
+    return board
+  } else if (options.asBitmap) {
+    return generateBitmap(
+      board,
+      options.darkMode
+    )
   } else {
-    return boardToString(generateBoard(data, options), options)
+    return boardToString(board, options)
   }
 }
 
