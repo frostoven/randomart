@@ -51,7 +51,6 @@ const pixelDataOffset = headerSize + dibHeaderSize
 function generateBitmap (
   randomartBoardState, darkMode = false
 ) {
-  console.log('-->', { randomartBoardState, darkMode, bound: randomartBoardState.bounds })
   const { board } = randomartBoardState
   const { width, height } = randomartBoardState.bounds
   const dataSize = width * height * 3 // 3 bytes per pixel (RGB)
