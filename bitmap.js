@@ -43,6 +43,51 @@ const dibHeaderSize = 40
 const pixelDataOffset = headerSize + dibHeaderSize
 
 /**
+ Loosely mimics Node's Buffer.writeUInt8.
+ * @param {ArrayBuffer} buffer
+ * @param {number} value
+ * @param {number} offset
+ */
+function writeUInt8 (buffer, value, offset) {
+  const dataView = new DataView(buffer)
+  dataView.setUint8(offset, value)
+}
+
+/**
+ * Loosely mimics Node's Buffer.writeUInt16LE.
+ * @param {ArrayBuffer} buffer
+ * @param {number} value
+ * @param {number} offset
+ */
+function writeUInt16LE (buffer, value, offset) {
+  const dataView = new DataView(buffer)
+  dataView.setUint16(offset, value, true)
+}
+
+/**
+ * Loosely mimics Node's Buffer.writeUInt32LE.
+ * @param {ArrayBuffer} buffer
+ * @param {number} value
+ * @param {number} offset
+ */
+function writeUInt32LE (buffer, value, offset) {
+  const dataView = new DataView(buffer)
+  dataView.setUint32(offset, value, true)
+  // return dataView.getFloat32(0);
+}
+
+/**
+ * Loosely mimics Node's Buffer.writeInt32LE.
+ * @param {ArrayBuffer} buffer
+ * @param {number} value
+ * @param {number} offset
+ */
+function writeInt32LE (buffer, value, offset) {
+  const dataView = new DataView(buffer)
+  dataView.setInt32(offset, value, true)
+}
+
+/**
  *
  * @param {Object} randomartBoardState
  * @param {boolean} darkMode
@@ -56,27 +101,27 @@ function generateBitmap (
   const dataSize = width * height * 3 // 3 bytes per pixel (RGB)
   const totalFileSize = headerSize + dibHeaderSize + dataSize
 
-  const buffer = Buffer.alloc(totalFileSize)
+  const buffer = new ArrayBuffer(totalFileSize)
 
   // File header (14 bytes)
-  buffer.writeUInt16LE(0x4D42, 0) // Signature 'BM'
-  buffer.writeUInt32LE(totalFileSize, 2) // File size
-  buffer.writeUInt32LE(0, 6) // Reserved
-  buffer.writeUInt32LE(0, 8) // Reserved
-  buffer.writeUInt32LE(pixelDataOffset, 10) // Image data location
+  writeUInt16LE(buffer, 0x4D42, 0) // Signature 'BM'
+  writeUInt32LE(buffer, totalFileSize, 2) // File size
+  writeUInt32LE(buffer, 0, 6) // Reserved
+  writeUInt32LE(buffer, 0, 8) // Reserved
+  writeUInt32LE(buffer, pixelDataOffset, 10) // Image data location
 
   // DIB header (Bitmap Information Header) (40 bytes)
-  buffer.writeUInt32LE(dibHeaderSize, 14) // Header size
-  buffer.writeUInt32LE(width, 18) // Image width
-  buffer.writeInt32LE(-height, 22) // Image height (negative for top-down)
-  buffer.writeUInt16LE(1, 26) // Color planes (must be 1)
-  buffer.writeUInt16LE(24, 28) // Bits per pixel (24-bit color)
-  buffer.writeUInt32LE(0, 30) // Compression method (0 for uncompressed)
-  buffer.writeUInt32LE(dataSize, 34) // Size of raw bitmap data
-  buffer.writeUInt32LE(2835, 38) // Horizontal resolution (2835 pixels per meter)
-  buffer.writeUInt32LE(2835, 42) // Vertical resolution (2835 pixels per meter)
-  buffer.writeUInt32LE(0, 46) // Number of colors in palette (0 for 2^n default)
-  buffer.writeUInt32LE(0, 50) // Number of important colors (usually ignored)
+  writeUInt32LE(buffer, dibHeaderSize, 14) // Header size
+  writeUInt32LE(buffer, width, 18) // Image width
+  writeInt32LE(buffer, -height, 22) // Image height (negative for top-down)
+  writeUInt16LE(buffer, 1, 26) // Color planes (must be 1)
+  writeUInt16LE(buffer, 24, 28) // Bits per pixel (24-bit color)
+  writeUInt32LE(buffer, 0, 30) // Compression method (0 for uncompressed)
+  writeUInt32LE(buffer, dataSize, 34) // Size of raw bitmap data
+  writeUInt32LE(buffer, 2835, 38) // Horizontal resolution (2835 pixels per meter)
+  writeUInt32LE(buffer, 2835, 42) // Vertical resolution (2835 pixels per meter)
+  writeUInt32LE(buffer, 0, 46) // Number of colors in palette (0 for 2^n default)
+  writeUInt32LE(buffer, 0, 50) // Number of important colors (usually ignored)
 
   // Pixel data (RGB)
   const offset = headerSize + dibHeaderSize
@@ -92,13 +137,13 @@ function generateBitmap (
       }
 
       const pixelOffset = offset + (y * width + x) * 3
-      buffer.writeUInt8(shade, pixelOffset) // blue channel
-      buffer.writeUInt8(shade, pixelOffset + 1) // green channel
-      buffer.writeUInt8(shade, pixelOffset + 2) // red channel
+      writeUInt8(buffer, shade, pixelOffset) // blue channel
+      writeUInt8(buffer, shade, pixelOffset + 1) // green channel
+      writeUInt8(buffer, shade, pixelOffset + 2) // red channel
     }
   }
 
-  return buffer
+  return new Uint8Array(buffer)
 }
 
 module.exports = {
