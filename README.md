@@ -24,7 +24,7 @@ structure, in which all parent elements are optional.
 
 Example:
 ```javascript
-randomart = require('randomart');
+const randomart = require('randomart');
 
 console.log(randomart([
   0x9b, 0x4c, 0x7b, 0xce, 0x7a, 0xbd, 0x0a, 0x13,
@@ -48,7 +48,7 @@ Result:
 ### Overriding ASCII symbols
 
 ```javascript
-randomart = require('randomart')
+const randomart = require('randomart')
 
 const options = {
   bounds: {
@@ -78,7 +78,7 @@ const randomartString = randomart(
 
 Example:
 ```javascript
-randomart = require('randomart')
+const randomart = require('randomart')
 
 const options = {
   bounds: {
