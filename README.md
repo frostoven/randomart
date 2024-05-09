@@ -8,10 +8,20 @@ by [therebelrobot](https://github.com/therebelrobot/randomart).
 The original code was based on
 [calmh/randomart](https://github.com/calmh/randomart),
 a randomart library written in Go.
+This project adds additional functionality.
 
-This project adds some features:
-* Option to generate bitmaps instead of ASCII art
-* Option to get raw buffers
+All features:
+* Generate ASCII art from data such as cryptographic keys or other data.
+* Generate bitmaps images instead.
+* Optionally get raw data instead of conversion to visual data.
+* Override ASCII symbols for custom ASCII output.
+* Supports the browser (via bundling) and Node.js.
+
+## Installation
+
+```bash
+npm install @frostoven/randomart
+```
 
 ## Documentation
 
