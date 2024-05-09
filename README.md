@@ -25,8 +25,8 @@ npm install @frostoven/randomart
 
 ## Documentation
 
-The function returned by `require('randomart')` optionally accepts two
-arguments: the first one, `data`, is expected to be an array of integers
+The function returned by `require('@frostoven/randomart')` optionally accepts
+two arguments: the first one, `data`, is expected to be an array of integers
 between 0 and 255, while the second one, `options`, has the following
 structure, in which all parent elements are optional.
 
@@ -34,12 +34,12 @@ structure, in which all parent elements are optional.
 
 Example:
 ```javascript
-const randomart = require('randomart');
+const randomart = require('@frostoven/randomart')
 
 console.log(randomart([
   0x9b, 0x4c, 0x7b, 0xce, 0x7a, 0xbd, 0x0a, 0x13,
-  0x61, 0xfb, 0x17, 0xc2, 0x06, 0x12, 0x0c, 0xed
-]));
+  0x61, 0xfb, 0x17, 0xc2, 0x06, 0x12, 0x0c, 0xed,
+]))
 ```
 
 Result:
@@ -58,7 +58,7 @@ Result:
 ### Overriding ASCII symbols
 
 ```javascript
-const randomart = require('randomart')
+const randomart = require('@frostoven/randomart')
 
 const options = {
   bounds: {
@@ -88,7 +88,7 @@ const randomartString = randomart(
 
 Example:
 ```javascript
-const randomart = require('randomart')
+const randomart = require('@frostoven/randomart')
 
 const options = {
   bounds: {
@@ -110,19 +110,24 @@ const buffer = randomart(
 // ================================
 
 const fs = require('fs')
+const randomart = require('@frostoven/randomart')
 
+const buffer = randomart(/* your options with `asBitmap: true` */)
 fs.writeFile('/tmp/your_image.bmp', buffer, console.log)
 ```
 
 ```javascript
-// If using this library from a browser
-// ====================================
+// Generating an image inside from a browser
+// =========================================
 
-function arrayBufferToString(ab) {
+import randomart from '@frostoven/randomart'
+
+function arrayBufferToString (ab) {
   // https://stackoverflow.com/questions/39725716/how-to-convert-javascript-array-to-binary-data-and-back-for-websocket
   return new Uint8Array(ab).reduce((p, c) => p + String.fromCharCode(c), '')
 }
 
+const buffer = randomart(/* your options with `asBitmap: true` */)
 const data = `data:image/bmp;base64,${window.btoa(arrayBufferToString(buffer))}`
 
 const img = document.getElementById('your-image')
